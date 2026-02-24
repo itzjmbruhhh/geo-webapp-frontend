@@ -25,13 +25,29 @@ const Login = () => {
         }
     };
 
+    // Login.jsx — updated structure
     return (
         <div className={styles.page}>
-            <div className={styles.card}>
+
+            {/* Left — decorative map panel */}
+            <div className={styles.mapPanel}>
+                <div className={styles.mapBrand}>
+                    <h1 className={styles.mapBrandName}>LOCATE.IO</h1>
+                    <p className={styles.mapBrandSub}>IP Geolocation Platform</p>
+                </div>
+                <div className={styles.mapFooter}>
+                    <p className={styles.mapStat}>UPTIME <span>99.98%</span></p>
+                    <p className={styles.mapStat}>NODES <span>142</span></p>
+                    <p className={styles.mapStat}>SIGNAL <span>ACTIVE</span></p>
+                </div>
+            </div>
+
+            {/* Right — form */}
+            <div className={styles.formPanel}>
                 <div className={styles.header}>
                     <p className={styles.coords}>14°35'N · 120°58'E</p>
-                    <h2 className={styles.title}>LOCATE.IO</h2>
-                    <p className={styles.subtitle}>Sign in to access your dashboard</p>
+                    <h2 className={styles.title}>ACCESS TERMINAL</h2>
+                    <p className={styles.subtitle}>Sign in to your dashboard</p>
                 </div>
                 <div className={styles.divider} />
 
