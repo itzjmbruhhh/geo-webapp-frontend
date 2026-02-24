@@ -1,0 +1,337 @@
+/* Login.module.css — Geo-location Minimalist Theme */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* ── CSS Variables ─────────────────────────────────────────── */
+:root {
+    --bg:           #0b0e14;
+    --surface:      #111620;
+    --border:       #1e2535;
+    --border-focus: #3a7bd5;
+    --text:         #e2e8f0;
+    --text-muted:   #4a5568;
+    --accent:       #3a7bd5;
+    --accent-glow:  #3a7bd540;
+    --error:        #e05c5c;
+    --grid:         rgba(58, 123, 213, 0.04);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+/* ── Page — full-bleed split ──────────────────────────────── */
+.page {
+    width: 100vw;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 480px;
+    background-color: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+}
+
+/* ── Left — decorative map panel ─────────────────────────── */
+.mapPanel {
+    position: relative;
+    background-color: var(--bg);
+    background-image:
+            repeating-linear-gradient(0deg,  transparent, transparent 59px, var(--grid) 60px),
+            repeating-linear-gradient(90deg, transparent, transparent 59px, var(--grid) 60px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(1.5rem, 4vw, 3rem) clamp(1.5rem, 4vw, 3.5rem);
+    border-right: 1px solid var(--border);
+    overflow: hidden;
+}
+
+/* radial glow */
+.mapPanel::before {
+    content: '';
+    position: absolute;
+    width: 80%;
+    padding-bottom: 80%;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 65%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation: pulse 7s ease-in-out infinite;
+}
+
+/* large ⊕ watermark */
+.mapPanel::after {
+    content: '⊕';
+    position: absolute;
+    bottom: -2rem;
+    right: -1rem;
+    font-size: clamp(8rem, 16vw, 20rem);
+    color: var(--border);
+    font-family: 'Space Mono', monospace;
+    line-height: 1;
+    pointer-events: none;
+    animation: spin 90s linear infinite;
+    opacity: 0.55;
+}
+
+.mapBrand { position: relative; z-index: 1; }
+
+.mapBrandName {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(1.4rem, 2.5vw, 2.4rem);
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.1em;
+    margin: 0;
+}
+
+.mapBrandSub {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-top: 0.4rem;
+}
+
+.mapFooter {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.mapStat {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    letter-spacing: 0.12em;
+}
+
+.mapStat span { color: var(--accent); }
+
+/* ── Right — form panel ───────────────────────────────────── */
+.formPanel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(2rem, 5vw, 4.5rem) clamp(1.5rem, 4vw, 3.5rem);
+    background: var(--surface);
+    position: relative;
+}
+
+/* ── Header ───────────────────────────────────────────────── */
+.header { margin-bottom: 2rem; }
+
+.coords {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 0.14em;
+    opacity: 0.8;
+    margin: 0 0 0.7rem;
+}
+
+.title {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(1rem, 1.8vw, 1.3rem);
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.04em;
+    margin: 0 0 0.3rem;
+}
+
+.subtitle {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    margin: 0;
+}
+
+/* ── Divider ──────────────────────────────────────────────── */
+.divider {
+    height: 1px;
+    background: linear-gradient(to right, var(--accent), transparent);
+    margin: 0 0 2rem;
+    opacity: 0.35;
+}
+
+/* ── Form ─────────────────────────────────────────────────── */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.fieldGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--text-muted);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.inputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.inputIcon {
+    position: absolute;
+    left: 0.8rem;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    pointer-events: none;
+    font-family: 'Space Mono', monospace;
+}
+
+.input {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    padding: 0.72rem 0.85rem 0.72rem 2.2rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.01em;
+}
+
+.input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.45;
+    font-size: 0.84rem;
+}
+
+.input:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* ── Error ────────────────────────────────────────────────── */
+.error {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--error);
+    background: rgba(224, 92, 92, 0.08);
+    border: 1px solid rgba(224, 92, 92, 0.2);
+    border-radius: 2px;
+    padding: 0.55rem 0.8rem;
+    letter-spacing: 0.04em;
+    margin: 0;
+}
+
+/* ── Submit button ────────────────────────────────────────── */
+.button {
+    margin-top: 0.5rem;
+    width: 100%;
+    padding: 0.82rem 1rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 2px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+
+.button::after {
+    content: '→';
+    position: absolute;
+    right: 1.1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: right 0.2s;
+}
+
+.button:hover {
+    background: #4a8ae8;
+    box-shadow: 0 0 24px var(--accent-glow);
+    transform: translateY(-1px);
+}
+
+.button:hover::after { right: 0.85rem; }
+.button:active { transform: translateY(0); box-shadow: none; }
+
+/* ── Footer ───────────────────────────────────────────────── */
+.footer {
+    margin-top: 2rem;
+    font-size: 0.66rem;
+    color: var(--text-muted);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.08em;
+    opacity: 0.4;
+    text-align: center;
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+
+/* Tablet: shrink right panel */
+@media (max-width: 960px) {
+    .page { grid-template-columns: 1fr 400px; }
+}
+
+/* Small tablet: tighter split */
+@media (max-width: 768px) {
+    .page { grid-template-columns: 40% 1fr; }
+    .mapFooter { display: none; }
+}
+
+/* Mobile: single column, map panel → slim topbar */
+@media (max-width: 580px) {
+    .page {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+    }
+
+    .mapPanel {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.1rem 1.25rem;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .mapPanel::before,
+    .mapPanel::after { display: none; }
+
+    .mapFooter { display: none; }
+
+    .mapBrandName { font-size: 1rem; }
+    .mapBrandSub  { display: none; }
+
+    .formPanel {
+        padding: 2rem 1.25rem;
+        justify-content: flex-start;
+    }
+}
+
+/* ── Animations ───────────────────────────────────────────── */
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+    50%       { opacity: 1;   transform: translate(-50%, -50%) scale(1.06); }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
