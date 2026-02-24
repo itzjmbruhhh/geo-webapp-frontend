@@ -1,8 +1,13 @@
-import { Navigate } from "react-router-dom";
+import {Navigate} from "react-router-dom";
 
-const PrivateRoute = ({ children }) => {
+const PrivateRoute = ({children}) => {
+    // Check if authentication token exists in browser's localStorage
     const token = localStorage.getItem("token");
-    if (!token) return <Navigate to="/" />;
+    
+    // If no token found, redirect to home page (login)
+    if (!token) return <Navigate to="/auth/login" />;
+    
+    // Token exists, render the protected content
     return children;
 };
 
