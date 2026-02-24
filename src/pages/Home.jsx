@@ -30,6 +30,68 @@ const Home = () => {
         const res = await getHistory(token);
         setHistory(res.data);
     };
+
+    const handleSearch = () => {
+      if(!isValidIP(ip)) return setError("Invalid IP");
+      fetchGeo(ip);
+    };
+
+    const handleClear = () => {
+        setIP("");
+        fetchGeo();
+    };
+
+    const handleDelete = async () => {
+        const selected = history.filter((h) => h.selected).map((h) => h._id);
+        if (!selected.length) return;
+        await deleteHistory(token, selected);
+        fetchHistory();
+    };
+
+    useEffect(() => {
+        fetchGeo();
+    }, []);
+
+    return (
+        <div style={{ padding: "2rem" }}>
+            <h2>Home</h2>
+            <div>
+                <input
+                    placeholder="Enter IP"
+                    value={ip}
+                    onChange={(e) => setIP(e.target.value)}
+                />
+                <button onClick={handleSearch}>Search</button>
+                <button onClick={handleClear}>Clear</button>
+            </div>
+            {error && <p style={{ color: "red" }}>{error}</p>}
+            <div style={{ marginTop: "1rem" }}>
+                <h3>Geo Info</h3>
+                <pre>{JSON.stringify(geo, null, 2)}</pre>
+            </div>
+            <div>
+                <h3>History</h3>
+                <button onClick={handleDelete}>Delete Selected</button>
+                <ul>
+                    {history.map((h) => (
+                        <li key={h._id}>
+                            <input
+                                type="checkbox"
+                                checked={h.selected || false}
+                                onChange={() => {
+                                    h.selected = !h.selected;
+                                    setHistory([...history]);
+                                }}
+                            />
+                            <span onClick={() => fetchGeo(h.ip)} style={{ cursor: "pointer" }}>
+                {h.ip} - {h.city}, {h.country}
+              </span>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </div>
+    );
 }
 
 export default Home;
