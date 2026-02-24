@@ -75,7 +75,7 @@ const Login = () => {
                     <button className={styles.button} type="submit">Authenticate</button>
                 </form>
 
-                <p className={styles.footer}>SIGNAL ENCRYPTED · TLS 1.3</p>
+                <p className={styles.footer}>github.com/itzjmbruhhh · @2026</p>
             </div>
         </div>
     );

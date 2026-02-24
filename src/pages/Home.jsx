@@ -24,14 +24,14 @@ const Home = () => {
     const [history, setHistory] = useState([]);
     const [error, setError] = useState("");
 
-    const fetchGeo = async (targetIP = "") => {
+    const fetchGeo = async (targetIP = "", save = false) => {
         try {
             const url = targetIP
                 ? `https://ipinfo.io/${targetIP}/geo`
                 : `https://ipinfo.io/geo`;
             const res = await axios.get(url);
             setGeo(res.data);
-            if (targetIP) await saveHistory(token, res.data);
+            if (save) await saveHistory(token, res.data);
             fetchHistory();
             setError("");
         } catch {
@@ -46,7 +46,7 @@ const Home = () => {
 
     const handleSearch = () => {
         if (!isValidIP(ip)) return setError("ERR · INVALID IPv4 FORMAT");
-        fetchGeo(ip);
+        fetchGeo(ip, true);
     };
 
     const handleClear = () => {
@@ -194,7 +194,7 @@ const Home = () => {
                                     />
                                     <div
                                         className={styles.historyMeta}
-                                        onClick={() => fetchGeo(h.ip)}
+                                        onClick={() => fetchGeo(h.ip)} // ← save defaults to false, no duplicate
                                     >
                                         <span className={styles.historyIP}>{h.ip}</span>
                                         <span className={styles.historyLocation}>
