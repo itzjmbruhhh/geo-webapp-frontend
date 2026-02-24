@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
-import { getHistory, saveHistory, deleteHistory } from "../services/api.js";
+import { getHistory, saveHistory, deleteHistory } from "../services/api";
 import axios from "axios";
-import App from "../App.jsx";
 
+/**
+ * Validates if a string is a valid IPv4 address
+ * @param {string} ip - The IP address to validate
+ * @returns {boolean} True if valid IPv4 format (e.g., 192.168.1.1)
+ */
 const isValidIP = (ip) =>
-    /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.(?!$)|$){4}$/.test(ip);
+    /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ip);
 
 const Home = () => {
     const token = localStorage.getItem("token");
-    const [geo, setGeo] = useState();
-    const [ip, setIp] = useState();
-    const [history, setHistory] = useState({});
-    const [error, setError] = useState(null);
+    const [geo, setGeo] = useState({});
+    const [ip, setIP] = useState("");
+    const [history, setHistory] = useState([]);
+    const [error, setError] = useState("");
 
     const fetchGeo = async (targetIP = "") => {
         try {
@@ -21,7 +25,7 @@ const Home = () => {
             if (targetIP) await saveHistory(token, res.data);
             fetchHistory();
             setError("");
-        } catch (error) {
+        } catch (err) {
             setError("Invalid IP or fetch error");
         }
     };
@@ -32,8 +36,8 @@ const Home = () => {
     };
 
     const handleSearch = () => {
-      if(!isValidIP(ip)) return setError("Invalid IP");
-      fetchGeo(ip);
+        if (!isValidIP(ip)) return setError("Invalid IP");
+        fetchGeo(ip);
     };
 
     const handleClear = () => {
@@ -92,6 +96,6 @@ const Home = () => {
             </div>
         </div>
     );
-}
+};
 
 export default Home;
