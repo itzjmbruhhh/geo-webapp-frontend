@@ -1,18 +1,29 @@
+/**
+ * Global styles for the geo-webapp
+ * Defines base typography, color scheme, and common element styles
+ * Supports both light and dark color schemes
+ */
+
+/* Root CSS variables and base typography settings */
 :root {
+  /* Font stack prioritizing system fonts for better performance */
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
+  /* Color scheme configuration for dark mode by default */
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
 
+  /* Font rendering optimizations for better readability */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Link styles with hover effects */
 a {
   font-weight: 500;
   color: #646cff;
@@ -22,6 +33,7 @@ a:hover {
   color: #535bf2;
 }
 
+/* Body: Full viewport height with centered content */
 body {
   margin: 0;
   display: flex;
@@ -30,11 +42,13 @@ body {
   min-height: 100vh;
 }
 
+/* Main heading styles */
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
 
+/* Button styles with hover and focus states */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
