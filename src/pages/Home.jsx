@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getHistory, saveHistory, deleteHistory } from "../services/api";
 import axios from "axios";
 import styles from "./Home.module.css";
+import GeoMap from "./GeoMap";
 
 const isValidIP = (ip) =>
     /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ip);
@@ -11,8 +12,8 @@ const GeoField = ({ label, value, highlight }) => (
     <div className={styles.geoField}>
         <span className={styles.geoKey}>{label}</span>
         <span className={`${styles.geoValue} ${highlight ? styles.highlight : ""}`}>
-      {value || "—"}
-    </span>
+            {value || "—"}
+        </span>
     </div>
 );
 
@@ -92,7 +93,7 @@ const Home = () => {
                 </div>
             </header>
 
-            {/* ── Main ── */}
+            {/* ── Main grid ── */}
             <div className={styles.main}>
 
                 {/* ── Search Bar ── */}
@@ -117,7 +118,7 @@ const Home = () => {
                     {error && <p className={styles.errorBadge}>{error}</p>}
                 </div>
 
-                {/* ── Geo Panel ── */}
+                {/* ── Geo data panel (top-left) ── */}
                 <section className={styles.geoPanel}>
                     <div className={styles.panelHeader}>
                         <span className={styles.panelTag}>Live</span>
@@ -130,7 +131,6 @@ const Home = () => {
                                 <p className={styles.ipAddress}>{geo.ip}</p>
                                 <p className={styles.ipOrg}>{geo.org || "Unknown Organization"}</p>
                             </div>
-
                             <div className={styles.geoGrid}>
                                 <GeoField label="City"     value={geo.city} />
                                 <GeoField label="Region"   value={geo.region} />
@@ -139,12 +139,11 @@ const Home = () => {
                                 <GeoField label="Timezone" value={geo.timezone} />
                                 <GeoField label="Hostname" value={geo.hostname} highlight />
                             </div>
-
                             <div className={styles.coordsRow}>
                                 <span className={styles.coordsLabel}>Coordinates</span>
                                 <span className={styles.coordsValue}>
-                  {lat}° N &nbsp;·&nbsp; {lng}° E
-                </span>
+                                    {lat}° N &nbsp;·&nbsp; {lng}° E
+                                </span>
                             </div>
                         </>
                     ) : (
@@ -155,10 +154,21 @@ const Home = () => {
                     )}
                 </section>
 
-                {/* ── History Panel ── */}
+                {/* ── Map panel (bottom-left) ── */}
+                <div className={styles.mapPanel}>
+                    <GeoMap
+                        lat={lat}
+                        lng={lng}
+                        ip={geo?.ip}
+                        city={geo?.city}
+                        country={geo?.country}
+                    />
+                </div>
+
+                {/* ── History panel (right column) ── */}
                 <aside className={styles.historyPanel}>
                     <div className={styles.historyHeader}>
-                        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                        <div className={styles.historyTitleGroup}>
                             <h3 className={styles.historyTitle}>History</h3>
                             <span className={styles.historyCount}>{history.length}</span>
                         </div>
@@ -194,12 +204,12 @@ const Home = () => {
                                     />
                                     <div
                                         className={styles.historyMeta}
-                                        onClick={() => fetchGeo(h.ip)} // ← save defaults to false, no duplicate
+                                        onClick={() => fetchGeo(h.ip)}
                                     >
                                         <span className={styles.historyIP}>{h.ip}</span>
                                         <span className={styles.historyLocation}>
-                      {h.city}, {h.country}
-                    </span>
+                                            {h.city}, {h.country}
+                                        </span>
                                     </div>
                                     <span className={styles.historyArrow}>→</span>
                                 </li>
