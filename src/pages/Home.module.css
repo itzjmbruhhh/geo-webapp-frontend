@@ -19,14 +19,14 @@
     --error:        #e05c5c;
     --grid:         rgba(58, 123, 213, 0.035);
 
-    --topbar-h:  57px;
+    --topbar-h:    57px;
     --searchbar-h: 57px;
-    --history-w: 300px;
+    --history-w:   300px;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 
-/* ── Root page — true full-screen ────────────────────────── */
+/* ── Page ─────────────────────────────────────────────────── */
 .page {
     width: 100vw;
     height: 100vh;
@@ -55,11 +55,7 @@
     flex-shrink: 0;
 }
 
-.brand {
-    display: flex;
-    flex-direction: column;
-    gap: 0.08rem;
-}
+.brand { display: flex; flex-direction: column; gap: 0.08rem; }
 
 .brandName {
     font-family: 'Space Mono', monospace;
@@ -128,26 +124,33 @@
     box-shadow: 0 0 12px rgba(224, 92, 92, 0.15);
 }
 
-/* ── Main body — fills remaining height ───────────────────── */
+/* ── Main grid ────────────────────────────────────────────── */
+/*
+  Columns: [left panel]  [history sidebar]
+  Rows:    [search bar]
+           [geo data]
+           [map]
+  History spans rows 2–3
+*/
 .main {
     display: grid;
     grid-template-columns: 1fr var(--history-w);
-    grid-template-rows: var(--searchbar-h) 1fr;
+    grid-template-rows: var(--searchbar-h) minmax(0, 2fr) minmax(0, 3fr);
     width: 100%;
     height: 100%;
     overflow: hidden;
 }
 
-/* ── Search bar ───────────────────────────────────────────── */
+/* ── Search bar — full width top row ─────────────────────── */
 .searchBar {
     grid-column: 1 / -1;
+    grid-row: 1;
     display: flex;
     align-items: center;
     gap: 0.75rem;
     padding: 0 1.75rem;
     border-bottom: 1px solid var(--border);
     background: var(--surface);
-    flex-shrink: 0;
 }
 
 .searchLabel {
@@ -191,10 +194,7 @@
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.searchInput::placeholder {
-    color: var(--text-dim);
-    font-size: 0.75rem;
-}
+.searchInput::placeholder { color: var(--text-dim); font-size: 0.75rem; }
 
 .searchInput:focus {
     border-color: var(--border-focus);
@@ -238,10 +238,7 @@
     white-space: nowrap;
 }
 
-.btnClear:hover {
-    color: var(--text);
-    border-color: var(--text-muted);
-}
+.btnClear:hover { color: var(--text); border-color: var(--text-muted); }
 
 .errorBadge {
     font-family: 'Space Mono', monospace;
@@ -252,10 +249,13 @@
     white-space: nowrap;
 }
 
-/* ── Geo panel ────────────────────────────────────────────── */
+/* ── Geo data panel — top-left ────────────────────────────── */
 .geoPanel {
-    padding: 1.75rem 2rem;
+    grid-column: 1;
+    grid-row: 2;
+    padding: 1.25rem 1.75rem;
     border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
     overflow-y: auto;
     animation: fadeIn 0.35s ease both;
 }
@@ -264,70 +264,64 @@
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
 }
 
 .panelTag {
     font-family: 'Space Mono', monospace;
-    font-size: 0.58rem;
+    font-size: 0.55rem;
     color: var(--accent);
     background: var(--accent-soft);
     border: 1px solid rgba(58, 123, 213, 0.2);
     border-radius: 2px;
-    padding: 0.18rem 0.5rem;
+    padding: 0.15rem 0.45rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
 }
 
 .panelTitle {
     font-family: 'Space Mono', monospace;
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     color: var(--text-muted);
     letter-spacing: 0.1em;
     text-transform: uppercase;
     margin: 0;
 }
 
-/* IP hero */
 .ipHero {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.5rem;
+    margin-bottom: 1.1rem;
+    padding-bottom: 1.1rem;
     border-bottom: 1px solid var(--border);
 }
 
 .ipAddress {
     font-family: 'Space Mono', monospace;
-    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-size: clamp(1.1rem, 2vw, 1.6rem);
     font-weight: 700;
     color: var(--text);
     letter-spacing: 0.04em;
-    margin: 0 0 0.3rem;
+    margin: 0 0 0.2rem;
     line-height: 1;
 }
 
 .ipOrg {
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     color: var(--text-muted);
     margin: 0;
     font-weight: 300;
 }
 
-/* Geo data grid */
 .geoGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 1rem 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.75rem 1.25rem;
 }
 
-.geoField {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-}
+.geoField { display: flex; flex-direction: column; gap: 0.2rem; }
 
 .geoKey {
     font-family: 'Space Mono', monospace;
-    font-size: 0.58rem;
+    font-size: 0.55rem;
     color: var(--text-muted);
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -335,7 +329,7 @@
 
 .geoValue {
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.92rem;
+    font-size: 0.88rem;
     color: var(--text);
     font-weight: 500;
 }
@@ -343,13 +337,12 @@
 .geoValue.highlight {
     color: var(--accent);
     font-family: 'Space Mono', monospace;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
 }
 
-/* coords bar */
 .coordsRow {
-    margin-top: 1.5rem;
-    padding: 0.85rem 1.1rem;
+    margin-top: 1rem;
+    padding: 0.7rem 1rem;
     background: var(--surface-2);
     border: 1px solid var(--border);
     border-radius: 2px;
@@ -361,7 +354,7 @@
 
 .coordsLabel {
     font-family: 'Space Mono', monospace;
-    font-size: 0.58rem;
+    font-size: 0.55rem;
     color: var(--text-muted);
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -369,39 +362,46 @@
 
 .coordsValue {
     font-family: 'Space Mono', monospace;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--accent);
     letter-spacing: 0.06em;
 }
 
-/* empty state */
 .emptyGeo {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 50%;
-    min-height: 180px;
+    height: 80%;
     gap: 0.5rem;
 }
 
-.emptyIcon {
-    font-size: 2.5rem;
-    color: var(--text-dim);
-    opacity: 0.35;
-}
+.emptyIcon { font-size: 2.2rem; color: var(--text-dim); opacity: 0.35; }
 
 .emptyText {
     font-family: 'Space Mono', monospace;
-    font-size: 0.62rem;
+    font-size: 0.6rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--text-dim);
     margin: 0;
 }
 
-/* ── History panel ────────────────────────────────────────── */
+/* ── Map panel slot — bottom-left ─────────────────────────── */
+.mapPanel {
+    grid-column: 1;
+    grid-row: 3;
+    border-right: 1px solid var(--border);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+/* ── History panel — right column spanning rows 2-3 ──────── */
 .historyPanel {
+    grid-column: 2;
+    grid-row: 2 / 4;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -418,11 +418,7 @@
     gap: 0.5rem;
 }
 
-.historyTitleGroup {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
+.historyTitleGroup { display: flex; align-items: center; gap: 0.5rem; }
 
 .historyTitle {
     font-family: 'Space Mono', monospace;
@@ -459,15 +455,8 @@
     white-space: nowrap;
 }
 
-.btnDelete:hover {
-    color: var(--error);
-    border-color: rgba(224, 92, 92, 0.4);
-}
-
-.btnDelete:disabled {
-    opacity: 0.35;
-    cursor: not-allowed;
-}
+.btnDelete:hover { color: var(--error); border-color: rgba(224, 92, 92, 0.4); }
+.btnDelete:disabled { opacity: 0.35; cursor: not-allowed; }
 
 .historyList {
     list-style: none;
@@ -486,10 +475,9 @@
     transition: background 0.15s;
 }
 
-.historyItem:hover { background: var(--surface-2); }
+.historyItem:hover    { background: var(--surface-2); }
 .historyItem.selected { background: var(--accent-soft); }
 
-/* custom checkbox */
 .checkbox {
     appearance: none;
     -webkit-appearance: none;
@@ -504,10 +492,7 @@
     transition: border-color 0.15s, background 0.15s;
 }
 
-.checkbox:checked {
-    background: var(--accent);
-    border-color: var(--accent);
-}
+.checkbox:checked { background: var(--accent); border-color: var(--accent); }
 
 .checkbox:checked::after {
     content: '✓';
@@ -551,10 +536,7 @@
     flex-shrink: 0;
 }
 
-.historyItem:hover .historyArrow {
-    color: var(--accent);
-    transform: translateX(2px);
-}
+.historyItem:hover .historyArrow { color: var(--accent); transform: translateX(2px); }
 
 .emptyHistory {
     display: flex;
@@ -575,73 +557,65 @@
 }
 
 /* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 1100px) { :root { --history-w: 260px; } }
 
-/* Narrow history panel on medium screens */
-@media (max-width: 1100px) {
-    :root { --history-w: 260px; }
-}
-
-/* Small tablet: hide status dot text, shrink history */
 @media (max-width: 860px) {
     :root { --history-w: 240px; }
     .statusDot { display: none; }
-    .topbar { padding: 0 1.25rem; }
+    .topbar    { padding: 0 1.25rem; }
     .searchBar { padding: 0 1.25rem; }
-    .geoPanel { padding: 1.25rem 1.25rem; }
+    .geoPanel  { padding: 1rem 1.25rem; }
 }
 
-/* Mobile: stack history below geo, full-width columns */
 @media (max-width: 640px) {
-    :root {
-        --history-w: 100%;
-        --topbar-h: 52px;
-        --searchbar-h: auto;
-    }
-
-    .page {
-        height: auto;
-        min-height: 100vh;
-        overflow: auto;
-    }
+    .page { height: auto; min-height: 100vh; overflow: auto; }
 
     .main {
         grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto;
+        grid-template-rows: auto auto auto auto;
         height: auto;
         overflow: visible;
     }
 
     .searchBar {
-        grid-column: 1;
+        grid-column: 1; grid-row: 1;
         flex-wrap: wrap;
         padding: 0.75rem 1rem;
         gap: 0.5rem;
+        height: auto;
     }
 
     .searchInputWrapper { max-width: 100%; width: 100%; }
 
     .geoPanel {
+        grid-column: 1; grid-row: 2;
         border-right: none;
-        border-bottom: 1px solid var(--border);
         overflow-y: visible;
-        padding: 1.25rem 1rem;
+        padding: 1.1rem 1rem;
+    }
+
+    .mapPanel {
+        grid-column: 1; grid-row: 3;
+        border-right: none;
+        height: 300px;
     }
 
     .historyPanel {
-        max-height: 360px;
+        grid-column: 1; grid-row: 4;
+        max-height: 380px;
     }
 
-    .topbar { padding: 0 1rem; }
+    .topbar      { padding: 0 1rem; }
     .brandCoords { display: none; }
 }
 
 /* ── Scrollbars ───────────────────────────────────────────── */
 .geoPanel::-webkit-scrollbar,
-.historyList::-webkit-scrollbar { width: 3px; }
+.historyList::-webkit-scrollbar        { width: 3px; }
 .geoPanel::-webkit-scrollbar-track,
-.historyList::-webkit-scrollbar-track { background: transparent; }
+.historyList::-webkit-scrollbar-track  { background: transparent; }
 .geoPanel::-webkit-scrollbar-thumb,
-.historyList::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.historyList::-webkit-scrollbar-thumb  { background: var(--border); border-radius: 2px; }
 
 /* ── Animations ───────────────────────────────────────────── */
 @keyframes fadeIn {
