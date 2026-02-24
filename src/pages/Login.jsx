@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../services/api";
+import styles from './Login.module.css';
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -25,30 +26,41 @@ const Login = () => {
     };
 
     return (
-        <div style={{ padding: "2rem" }}>
-            <h2>Login</h2>
-            {error && <p style={{ color: "red" }}>{error}</p>}
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
+        <div className={styles.page}>
+            <div className={styles.card}>
+                <div className={styles.header}>
+                    <p className={styles.coords}>14°35'N · 120°58'E</p>
+                    <h2 className={styles.title}>LOCATE.IO</h2>
+                    <p className={styles.subtitle}>Sign in to access your dashboard</p>
                 </div>
-                <div>
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <button type="submit" style={{ marginTop: "1rem" }}>Login</button>
-            </form>
+                <div className={styles.divider} />
+
+                {error && <p className={styles.error}>⚠ {error}</p>}
+
+                <form className={styles.form} onSubmit={handleSubmit}>
+                    <div className={styles.fieldGroup}>
+                        <label className={styles.label}>Email</label>
+                        <div className={styles.inputWrapper}>
+                            <span className={styles.inputIcon}>@</span>
+                            <input className={styles.input} type="email" placeholder="user@domain.com"
+                                   value={email} onChange={(e) => setEmail(e.target.value)} required />
+                        </div>
+                    </div>
+
+                    <div className={styles.fieldGroup}>
+                        <label className={styles.label}>Password</label>
+                        <div className={styles.inputWrapper}>
+                            <span className={styles.inputIcon}>⊹</span>
+                            <input className={styles.input} type="password" placeholder="••••••••"
+                                   value={password} onChange={(e) => setPassword(e.target.value)} required />
+                        </div>
+                    </div>
+
+                    <button className={styles.button} type="submit">Authenticate</button>
+                </form>
+
+                <p className={styles.footer}>SIGNAL ENCRYPTED · TLS 1.3</p>
+            </div>
         </div>
     );
 };
