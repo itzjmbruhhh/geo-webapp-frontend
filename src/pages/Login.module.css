@@ -325,6 +325,141 @@
     }
 }
 
+/* ── Loading overlay ──────────────────────────────────────── */
+.loadingOverlay {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    background-image:
+            repeating-linear-gradient(0deg,  transparent, transparent 59px, var(--grid) 60px),
+            repeating-linear-gradient(90deg, transparent, transparent 59px, var(--grid) 60px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    z-index: 100;
+    animation: fadeIn 0.2s ease both;
+}
+
+/* Ripple rings */
+.loadingRings {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loadingRings::before,
+.loadingRings::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid var(--accent);
+    animation: ripple 1.8s ease-out infinite;
+}
+
+.loadingRings::before {
+    width: 64px;
+    height: 64px;
+    opacity: 0.6;
+}
+
+.loadingRings::after {
+    width: 64px;
+    height: 64px;
+    animation-delay: 0.6s;
+    opacity: 0.3;
+}
+
+.loadingCore {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent), 0 0 24px var(--accent-glow);
+    position: relative;
+    z-index: 1;
+    animation: corePulse 1.8s ease-in-out infinite;
+}
+
+/* Third ring via extra div */
+.loadingRing3 {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 1px solid var(--accent);
+    animation: ripple 1.8s ease-out infinite;
+    animation-delay: 1.2s;
+    opacity: 0.15;
+}
+
+/* Status text */
+.loadingStatus {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.loadingLabel {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.loadingDots {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.loadingDots span {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    animation: dotBounce 1.2s ease-in-out infinite;
+}
+
+.loadingDots span:nth-child(2) { animation-delay: 0.2s; }
+.loadingDots span:nth-child(3) { animation-delay: 0.4s; }
+
+.loadingCoords {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.58rem;
+    color: var(--text-muted);
+    letter-spacing: 0.12em;
+    opacity: 0.5;
+    margin: 0;
+}
+
+/* Button loading state */
+.button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.button.loading::after {
+    content: '';
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    animation: spinFast 0.7s linear infinite;
+}
+
 /* ── Animations ───────────────────────────────────────────── */
 @keyframes pulse {
     0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
@@ -334,4 +469,29 @@
 @keyframes spin {
     from { transform: rotate(0deg); }
     to   { transform: rotate(360deg); }
+}
+
+@keyframes spinFast {
+    from { transform: translateY(-50%) rotate(0deg); }
+    to   { transform: translateY(-50%) rotate(360deg); }
+}
+
+@keyframes ripple {
+    0%   { transform: scale(0.4); opacity: 0.8; }
+    100% { transform: scale(2.2); opacity: 0; }
+}
+
+@keyframes corePulse {
+    0%, 100% { box-shadow: 0 0 8px var(--accent),  0 0 16px var(--accent-glow); }
+    50%       { box-shadow: 0 0 16px var(--accent), 0 0 32px var(--accent-glow); }
+}
+
+@keyframes dotBounce {
+    0%, 80%, 100% { transform: translateY(0);    opacity: 0.4; }
+    40%            { transform: translateY(-4px); opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
